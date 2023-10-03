@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<h1>Payments</h1>
+					</div>
+				</div>
+			</div> 
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+			<div class="cart-section mt-150 mb-150">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-7 col-md-12">
+							<div class="card">
+								<h5 class="card-header">Billing Address</h5>
+								<div class="card-body">
+								  <p class="card-text mb-0">{{order.full_name}}</p>
+								  <p class="card-text mb-0">{{order.full_address}}</p>
+								  <p class="card-text mb-0">{{order.city}} - {{order.pincode}}</p>
+								  <p class="card-text mb-0">{{order.email}}</p>
+								  <p class="card-text mb-0">{{order.phone}}</p>
+								  {% if order.order_note %}
+									<b> Order Note: </b> {{order.order_note}}
+								  {% endif %}
+
+								</div>
+							</div>
+							<br>					
+							<div class="card">
+								<h5 class="card-header">Review Products</h5>
+								<div class="card-body">
+									<table class="order-details">
+										<thead>
+											<tr>
+												<th>Products</th>
+												<th>Quantity</th>
+												<th>Price</th>
+												<th>Total</th>
+											</tr>
+										</thead>
+										<tbody class="order-details-body">
+											{% for cart_item in cart_items %}
+												<tr>
+													<td class="product-image"><img src="{{ cart_item.product.product_images.url }}" alt="">{{ cart_item.product.product_name }}</a></td>
+													<td>{{ cart_item.quantity }}</td>
+													<td>₹{{ cart_item.product.price }}</td>
+													<td>₹{{ grand_total }}</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-5">
+							<div class="total-section">
+								<table class="total-table">
+									<thead class="total-table-head">
+										<tr class="table-total-row">
+											<th>Total</th>
+											<th>Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="total-data">
+											<td><strong>Subtotal: </strong></td>
+											<td>₹{{ total }}</td>
+										</tr>
+										<tr class="total-data">
+											<td><strong>Shipping: </strong></td>
+											<td>₹{{ shipping }}</td>
+										</tr>
+										<tr class="total-data">
+											<td><strong>Discount</strong></td>
+											<td>₹{{ discount }}</td>
+										</tr>
+										<tr class="total-data">
+											<td><strong>Grand Total: </strong></td>
+											<td>₹{{ grand_total }}</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="cart-buttons">
+									<a type="button" href="{% url 'cash_on_delivery' order.order_number %}" class="btn btn-warning btn-lg btn-block" style="background-color: #F28123; color: white; border-radius: 35px;">Cash On Delivery</a>
+									<a type="button" href="{% url 'wallet_pay' order.id %}" class="btn btn-warning btn-lg btn-block wallet-button" style="background-color: #F28123;" >Pay with Wallet</a>
+									<a id="rzp-button1" class="btn btn-primary btn-lg btn-block">Pay with Razorpay</a>
+								</div>															
+							</div>
+							<form method="post" action="{% url 'apply_coupon' %}">
+								{% csrf_token %}
+								<div class="coupon-section">
+									<h3>Apply Coupon</h3>
+									<div class="coupon-form-wrap">
+										{% for message in messages %}
+											<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+												{{ message }}
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+										{% endfor %}
+										<p><input type="text" name="coupon_code" class="form-control" placeholder="Enter your Coupon"></p>
+										<p><input type="hidden" name="order_id" class="form-control" value="{{order.id}}"></p>
+										<button type="submit" class="btn btn-warning btn-lg" style="background-color: #F28123; color: white; border-radius: 35px;">Apply</button>
+									</div>
+								</div>
+							</form>	
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+			<script>
+				var options = {
+					"key": "rzp_test_oodHMgMqI4OLAm",
+					"amount": {{ order.order_total|floatformat:2 }} * 100,
+					"currency": "INR",
+					"name": "Solar Garage",
+					"description": "Purchase",
+					"image": "https://example.com/your_logo",
+					"order_id": "{{ payment.id }}", 
+					"handler": function (response) {
+						alert("Payment successful!");
+						var orderNumber = "{{ order.order_number }}";
+						window.location.href = '/orderapp/confirm_razorpay_payment/' + orderNumber + '/';
+					},
+						
+					"theme": {
+						"color": "#3399cc"
+					}
+				};
+
+				var rzp1 = new Razorpay(options);
+				document.getElementById('rzp-button1').addEventListener('click', function (e) {
+					rzp1.open();
+					e.preventDefault();
+				});
+			</script>
+	<!-- end cart -->
+
+
+{% endblock %}

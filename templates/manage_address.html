@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .card-body {
+    padding-left: 10px;
+    font-size: 18px;
+    margin-top: -24px;
+  }
+
+  .address-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .address-actions {
+    margin-top: 10px;
+  }
+
+  .edit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    text-decoration: none; /* Remove underlines from the link */
+  }
+
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    text-decoration: none; /* Remove underlines from the link */
+  }
+</style>
+
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <h1>Your Profile</h1>
+          <p>Manage Address</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end breadcrumb section -->
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    {% include 'user_dashboard.html' %}
+    <!-- Main content area -->
+    <main class="main-content col-lg-8">
+      <!-- Display user's addresses -->
+      <div class="card-body">
+        <h2>Your Addresses:</h2>
+        {% for address in addresses %}
+        <div class="address-box">
+          <p><strong>Name:</strong> {{ address.first_name }} {{ address.last_name }}</p>
+          <p><strong>Email:</strong> {{ address.email }}</p>
+          <p><strong>Phone:</strong> {{ address.phone }}</p>
+          <p><strong>Address:</strong> {{ address.address_line_1 }} {{ address.address_line_2 }}</p>
+          <p><strong>City:</strong> {{ address.city }}</p>
+          <p><strong>Pincode:</strong> {{ address.pincode }}</p>
+          <!-- You can display other address information here as needed -->
+          <div class="address-actions">
+            <a href="{% url 'edit_address' address.id %}" class="edit-button" style="background-color: #F28123; color: white; border-radius: 35px;">Edit Address</a>
+            <a href="{% url 'delete_address' address.id %}" class="delete-button" style="background-color: red; color: white; border-radius: 35px;">Delete Address</a>
+          </div>
+        </div>
+        {% empty %}
+        <p>No addresses found.</p>
+        {% endfor %}
+      </div>
+      <!-- End display user's addresses -->
+    </main>
+  </div>
+</div>
+
+{% endblock %}

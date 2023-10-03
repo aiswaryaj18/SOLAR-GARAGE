@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <h1>Your Profile</h1>
+                    <p>Order Details</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb section -->
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        {% include 'user_dashboard.html' %}
+        <!-- Main content area -->
+        <main class="main-content col-lg-9 ">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <!-- Hoverable Table rows -->
+            <div class="card py-3 mb-4">
+                <h5 class="card-header"> PRODUCT DETAILS</h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            {% for order_product in order_products %}
+                            <tr>
+                                <td><img src="{{ order_product.product.product_images.url }}" alt="{{ order_product.product.product_name }}" width="100"></td>
+                                <td>{{ order_product.product.product_name }}</td>
+                                <td>{{ order_product.quantity }}</td>
+                                <td>₹{{ order_product.product_price }}</td>
+                                <td>₹{{ order_product.total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card py-3 mb-4">
+                <h5 class="card-header"> ADDRESS DETAILS</h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                              <th>Full Name</th>
+                              <th>Full Address</th>
+                              <th>Mobile</th>
+                            </tr>
+                          </thead>
+                        <tbody class="table-border-bottom-0">
+                            {% for order in orders %}
+                            <tr>
+                                <td><i class=" me-3"></i> <strong>{{ order.full_name }}</strong></td>
+                                <td>
+                                    <p>{{ order.address_line_1 }}</p>
+                                    <p>{{ order.address_line_2 }}</p>
+                                    <p>{{ order.city }} - {{ order.pincode }}</p>
+                                </td>
+                                <td>{{ order.phone }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card py-3 mb-4">
+                <h5 class="card-header">PAYMENT DETAILS</h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Payment Method</th>
+                                <th>Full Amount with Shipping</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            {% for payment in payments %}
+                            <tr>
+                                <td>{{ payment.payment_method }}</td>
+                                <td>₹{{ payment.amount_paid }}</td>
+                                <td>{{ payment.status }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <!--/ Hoverable Table rows -->
+        </div>
+        </main>
+    </div>
+</div>
+
+{% endblock %}

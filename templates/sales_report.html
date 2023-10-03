@@ -1,0 +1,147 @@
+{% extends 'admin_base.html' %} 
+{% load static %}
+{% block title%}Sales Report{% endblock title %}
+
+{% block content %}
+
+<section class="section-conten padding-y" style="min-height: 84vh">
+  <!-- ============================ COMPONENT LOGIN   ================================= -->
+  <div class="card mx-auto" style="max-width: 900px; margin-top: 100px">
+    <div class="card-body">
+      <h4 class="card-title mb-4">Sales Report</h4>
+      
+      {% comment %} <span style="float: left; padding: 5px;">From</span>
+      <div class="col-md-2 col-6" style="float: left;" >
+          <input type="date" value="{{ fromDate }}" class="form-control" name="fromDate" required>
+      </div>
+      <span style="float: left; padding: 5px;">To</span>
+      <div class="col-md-2 col-6" style="float: left;">
+          <input type="date" value="{{ toDate }}" class="form-control" name="toDate" required>
+      </div>
+      <div >
+              <button type="submit" class="btn btn-primary rounded font-sm"style=" padding: 4px; margin: 5px;"  >Submit</button>
+          </div>
+         <br> {% endcomment %}
+      {% comment %} <input type="date" id="start_date" name="start_date" value="{{ start_date }}" required> {% endcomment %}
+      {% comment %} <input type="date" id="end_date" name="end_date" value="{{ end_date }}" required> {% endcomment %}
+      <button class="btn btn-primary" onclick="exportToExcel()">
+        Excel &nbsp<i class="far fa-file-pdf text-light"></i>
+      </button>
+      <button class="btn btn-primary" id="pdfButton">
+        PDF &nbsp<i class="far fa-file text-light"></i>
+      </button><br><br>
+      <form action="{% url "sales_report" %}" method="post">
+        {% csrf_token %}
+        <span style="float: left; padding: 5px;">From</span>
+      <div class="col-md-2 col-6" style="float: left;" >
+          <input type="date" value="{{ fromDate }}" class="form-control" name="fromDate" required>
+      </div>
+      <span style="float: left; padding: 5px;">To</span>
+      <div class="col-md-2 col-6" style="float: left;">
+          <input type="date" value="{{ toDate }}" class="form-control" name="toDate" required>
+      </div>
+      <div >
+              <button type="submit" class="btn btn-primary rounded font-sm"style=" padding: 4px; margin: 5px;"  >Submit</button>
+          </div>
+      </form>
+      <table class="table table-sm" id="sales_report">
+        <thead>
+          <tr>
+              <th>Id</th>
+              <th>Product Name</th>
+              <th>Category</th>    
+              <th>Price</th>       
+              <th>Quantity</th>    
+              <th>Sub_total</th> 
+              <th>Total Amount</th>     
+          </tr>
+        </thead>
+        <tbody>
+            {% for order_item in order_items %}
+          <tr>
+            <td>{{forloop.counter}}</td> 
+            <td>{{order_item.product.product_name}}</td> 
+            <td>{{order_item.product.category.category_name}}</td>
+            <td>₹{{order_item.product.price}}</td>
+            <td>{{order_item.quantity}} </td>
+            <td>₹{{ order_item.sub_total }}</td>
+            <td>₹{{ order_item.total }}</td>
+          </tr>
+          {% endfor %}
+         
+        </tbody>
+      </table>
+      
+    </div>
+    <!-- card-body.// -->
+  </div>
+  <!-- card .// -->
+
+  <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+</section>
+<script>
+    function exportToExcel() {
+        console.log(123);
+
+      var data = [
+        ['Sales Report'],
+        ['Sl No', 'Product Name', 'Category', 'Variants', 'Price','Quantity','Sub_total','Tax','Discount','Total Amount']
+        {% for order_item in order_items %}
+        , [{{ forloop.counter }}, '{{order_item.product.product_name}}', '{{order_item.product.category.category_name}}', '{{order_item.product.price}}', '{{order_item.quantity}}', '{{ order_item.sub_total }}', '{{ order_item.discount }}', '{{ order_item.total }}']
+        {% endfor %}
+      ];
+  
+      // Create a CSV string
+      var csvContent = data.map(function(row) {
+        return row.join(',');
+      }).join('\n');
+  
+      // Create a Blob containing the CSV data
+      var blob = new Blob([csvContent], { type: 'text/csv' });
+  
+      // Create a link to download the Blob as a file
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'data.csv'; // You can change the filename here
+      link.style.display = 'none';
+  
+      // Append the link to the document
+      document.body.appendChild(link);
+  
+      // Click the link to trigger the download
+      link.click();
+  
+      // Clean up the link
+      document.body.removeChild(link);
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+<script>
+  document.getElementById("pdfButton").addEventListener("click", function () {
+    {% comment %} const start_date = document.getElementById('start_date').value;
+    const end_date = document.getElementById('end_date').value;
+
+    // Fetch data based on the selected date range
+    fetch(`/sales-report/?start_date=${start_date}&end_date=${end_date}`)
+        .then(response => response.text())
+        .then(html => {
+            // Generate and download the PDF
+            // ...
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        }); {% endcomment %}
+    const table = document.querySelector(".table");
+    const pdfOptions = {
+      margin: 5,
+      filename: 'table.pdf',
+      image: { type: 'jpeg', quality: 0.5 },
+      html2canvas: { scale: 3 },
+      jsPDF: { unit: 'mm', format: 'a3', orientation: 'portrait' }
+    };
+
+    html2pdf().from(table).set(pdfOptions).save();
+  });
+</script>
+{% endblock content %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .card-body {
+    padding-left: 10px;
+    font-size: 18px;
+    margin-top: -24px;
+  }
+
+  .edit-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: #f9f9f9;
+  }
+
+  .edit-form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+</style>
+
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <h1>Edit Address</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end breadcrumb section -->
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    {% include 'user_dashboard.html' %}
+    <!-- Main content area -->
+    <main class="main-content col-lg-6">
+      <div class="card-body">
+        <div class="edit-box">
+          <div class="edit-form">
+            <form method="post" action="{% url 'edit_address' address.id %}">{% csrf_token %}
+              <div class="form-group">
+                <label for="first_name" class="form-label">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ address.first_name }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="full_name" class="form-label">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ address.last_name }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" value="{{ address.email }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="phone" class="form-label">Phone:</label>
+                <input type="text" id="phone" name="phone" value="{{ address.phone }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="address_line_1" class="form-label">Address:</label>
+                <textarea name="address_line_1" class="form-control" value="" required>{{ address.address_line_1 }}</textarea>
+              </div>
+              <div class="form-group">
+                <label for="address_line_2" class="form-label"></label>
+                <textarea name="address_line_2" class="form-control"  value="">{{ address.address_line_2 }}</textarea>
+              </div>
+              <div class="form-group">
+                <label for="city" class="form-label">City:</label>
+                <input type="text" id="city" name="city" value="{{ address.city }}" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="pincode" class="form-label">Pincode:</label>
+                <input type="text" id="pincode" name="pincode" value="{{ address.pincode }}" class="form-control" required>
+              </div>
+             
+              <button type="submit" class="btn btn-warning" style="background-color: #F28123; color: white; border-radius: 35px;">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+{% endblock %}

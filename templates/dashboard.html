@@ -1,0 +1,271 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock title %}
+{% block content %}
+
+<div class="container-fluid">
+  <!--  Row 1 -->
+  <div class="row">
+    <div class="col-lg-8 d-flex align-items-strech mt-5">
+      <div class="card w-100">
+        <div class="card-body">
+          <div
+            class="d-sm-flex d-block align-items-center justify-content-between mb-9"
+          >
+            <div class="mb-3 mb-sm-0">
+              <h5 class="card-title fw-semibold">Sales Overview</h5>
+            </div>
+            {% comment %} <div>
+              <a href="" class="btn btn-primary btn-sm">Monthly</a>
+              <a href="" class="btn btn-primary btn-sm">Yearly</a>
+            </div> {% endcomment %}
+          </div>
+          {% comment %}
+          <div id="chart"></div>
+          {% endcomment %}
+          <div>
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="row">
+        <div class="col-lg-12 ">
+          <!-- Yearly Breakup -->
+          <div class="card overflow-hidden mt-5">
+            <div class="card-body p-4">
+              <h5 class="card-title mb-9 fw-semibold">Yearly Order Count</h5>
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h4 class="fw-semibold mb-3">{{order_count}}</h4>
+                  <div class="d-flex align-items-center mb-3">
+                    <span
+                      class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center"
+                    >
+                      <i class="ti ti-arrow-up-left text-success"></i>
+                    </span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    
+                    {% comment %}
+                    <div>
+                      <span
+                        class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"
+                      ></span>
+                      <span class="fs-2">2023</span>
+                    </div>
+                    {% endcomment %}
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="d-flex justify-content-center">
+                    <div id="breakup"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="col-lg-12">
+          <!-- Monthly Earnings -->
+          <div class="card mt-5">
+            <div class="card-body">
+              <div class="row alig n-items-start">
+                <div class="col-8">
+                  <h5 class="card-title mb-9 fw-semibold">Monthly Earnings</h5>
+                  <h4 class="fw-semibold mb-3">₹{{total}}</h4>
+                  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-5">
+            <div class="card-body">
+              <div class="row alig n-items-start">
+                <div class="col-8">
+                  <h5 class="card-title mb-9 fw-semibold">Sales Report</h5>
+                  <div class="d-flex align-items-center pb-1">
+                    <a href="/adminapp/sales_report" class="btn btn-primary">Report</a>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="d-flex justify-content-end">
+                    <div
+                      class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center"
+                    >
+                      <i class="ti ti-currency-dollar fs-6"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="earning"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    {% comment %} <div class="col-lg-4 d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <div class="mb-4">
+            <h5 class="card-title fw-semibold">Sales</h5>
+          </div>
+          <ul class="timeline-widget mb-0 position-relative mb-n5">
+            {% for sale in sale%}
+            <li class="timeline-item d-flex position-relative overflow-hidden">
+              <div class="timeline-time text-dark flex-shrink-0 text-end">
+                {{sale.created_at}}
+              </div>
+              <div
+                class="timeline-badge-wrap d-flex flex-column align-items-center"
+              >
+                <span
+                  class="timeline-badge {% if forloop.counter|divisibleby:2 %}border-2 border border-success{% else %}border-2 border border-primary{% endif %} flex-shrink-0 my-8"
+                ></span>
+                <span
+                  class="timeline-badge-border d-block flex-shrink-0"
+                ></span>
+              </div>
+              <div class="timeline-desc fs-3 text-dark mt-n1">New sale</div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div> {% endcomment %}
+    <div class="col-lg-12 d-flex align-items-stretch mt-5">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
+          <div class="table-responsive">
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+                <tr>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Id</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Address</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Date</h6>
+                  </th>
+                  {% comment %} <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Payment Method</h6>
+                  </th> {% endcomment %}
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Price</h6>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <style>
+                  .order-row:nth-child(even) {
+                    background-color: #f2f2f2; /* Light gray for even rows */
+                  }
+
+                  .order-row:nth-child(odd) {
+                    background-color: #ffffff; /* White for odd rows */
+                  }
+                </style>
+
+                {% for order in orders %}
+
+                <tr class="order-row">
+                  <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">{{forloop.counter}}</h6>
+                  </td>
+                  <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-1">{{ order.full_name }}</h6>
+                    <span class="fw-normal"
+                      >{{ order.address_line_1 }} -{{ order.city }}</span
+                    >
+                  </td>
+                  <td class="border-bottom-0">
+                    <p class="mb-0 fw-normal">{{order.created_at}}</p>
+                  </td>
+                  {% comment %} <td class="border-bottom-0">
+                    <div class="d-flex align-items-center gap-2">
+                      <p>{{payment}}</p>
+                    </div>
+                  </td> {% endcomment %}
+                  <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-1">
+                      {{order.order_total}}
+                    </h6>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="myChart" width="400" height="200"></canvas>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ dates|safe }},  // Use the dates from the context
+      datasets: [{
+        label: 'daily_order_counts',
+        data: {{ counts|safe }},  // Use the counts from the context
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+{% comment %} 
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ labels|safe }}, // Pass the labels from the context
+      datasets: [{
+        label: 'Daily Order Count',
+        data: {{ data|safe }}, // Pass the data from the context
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script> {% endcomment %}
+
+{% endblock content %}

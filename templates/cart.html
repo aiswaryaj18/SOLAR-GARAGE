@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Power Your Home</p>
+						<h1>Cart</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			{% if not cart_items %}
+
+			<h2 class ="text-center">Your Cart is Empty</h2>
+			<br>
+			<div class ="text-center">
+				<a href ="{% url 'products'%}" class="btn btn-warning btn-lg " style="background-color: #F28123; color: white; border-radius: 35px;">Continue Shopping</a>
+			</div>
+			{% else %}
+			<div class="row">
+				<div class="col-lg-8 col-md-12">
+					<div class="cart-table-wrap">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove"></th>
+									<th class="product-image">Product Image</th>
+									<th class="product-name">Name</th>
+									<th class="product-price">Price</th>
+									<th class="product-quantity">Quantity</th>
+									<th class="product-total">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for cart_item in cart_items %}
+								<tr class="table-body-row">
+									<td class="product-remove"><a href="{% url 'remove_cart_item' cart_item.product.id %}"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image"><img src={{cart_item.product.product_images.url}} alt=""></td>
+									<td> <a href= "{{product_details.get_url}}" class="title text-dark">{{cart_item.product.product_name |slice:":22"}}</a></td>
+									<td class="product-price">₹ {{cart_item.product.price}}</td>
+									<td class="product-quantity">
+										<div class="quantity-col">
+											{% comment %} <button class="btn btn-light" type="button" id="button-minus">-</button> {% endcomment %}
+											<a href ="{% url 'remove_cart' cart_item.product.id %}" class= "btn btn-light" type="button" id="button-minus"><i class="fa fa-minus"></i></a>
+											<input type="text" value="{{cart_item.quantity}}" name="name" id="name" style="border: thin solid transparent; text-align: center;" readonly>
+											<a href ="{% url 'add_cart' cart_item.product.id %}" class= "btn btn-light" type="button" id="button-plus"><i class="fa fa-plus"></i></a>
+											{% comment %} <button class="btn btn-light" type="button" id="button-plus">+</button> {% endcomment %}
+										</div>
+									</td>
+									<td class="product-total">₹ {{cart_item.sub_total}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="total-section">
+						<table class="total-table">
+							<thead class="total-table-head">
+								<tr class="table-total-row">
+									<th>Total</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="total-data">
+									<td><strong>Subtotal: </strong></td>
+									<td>₹ {{total}}</td>
+								</tr>
+								<tr class="total-data">
+									<td><strong>Shipping: </strong></td>
+									<td>₹ {{shipping}}</td>
+								</tr>
+								<tr class="total-data">
+									<td><strong>Total: </strong></td>
+									<td>₹ {{grand_total}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="cart-buttons">
+							<a href="{% url 'products'%}" class="boxed-btn">Continue Shopping</a>
+							<a href="{% url 'checkout'%}" class="boxed-btn black">Check Out</a>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<!-- end cart -->
+
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+from django.urls import path
+from userapp import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
+    path('products/', views.products, name='products'),
+    path('product_details/<int:category_id>/<int:product_id>/', views.product_details, name='product_details'),
+    path('contact/', views.contact, name='contact'),
+    path('userlogin/', views.userlogin, name='userlogin'),
+    path('userlogout/', views.userlogout, name='userlogout'),
+    path('user_profile/', views.user_profile, name='user_profile'),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+    path('password_validation/<uidb64>/<token>/', views.password_validation, name='password_validation'),
+    path('reset_password/', views.reset_password, name='reset_password'),
+    path('usersignup/', views.usersignup, name='usersignup'),
+    path('usersignupotp/', views.usersignupotp, name='usersignupotp'),
+    path('search/', views.search, name='search'),
+    path('my_orders/', views.my_orders, name='my_orders'),
+    path('order_details/<int:order_id>', views.order_details, name='order_details'),
+    path('cancel_order/<int:order_id>/', views.cancel_order, name='cancel_order'),
+    path('return_order/<int:order_id>/', views.return_order, name='return_order'),
+    path('add_to_wishlist/<int:product_id>/', views.add_to_wishlist, name='add_to_wishlist'),
+    path('view_wishlist/', views.view_wishlist, name='view_wishlist'),
+    path('remove_from_wishlist/<int:product_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
+    path('my_wallet/', views.my_wallet, name='my_wallet'),
+    path('wallet_pay/<int:order_id>/', views.wallet_pay, name='wallet_pay'),
+    path('coupons/', views.coupons, name='coupons'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('add_address/', views.add_address, name='add_address'),
+    path('change_password/', views.change_password, name='change_password'),
+    path('manage_address/', views.manage_address, name='manage_address'),
+    path('edit_address/<int:address_id>/', views.edit_address, name='edit_address'),
+    path('delete_address/<int:address_id>/', views.delete_address, name='delete_address'),
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+    
+    # path('otp_verification/', views.otp_verification, name='otp_verification'),
+]

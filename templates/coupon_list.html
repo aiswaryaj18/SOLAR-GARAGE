@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Power Your Home</p>
+						<h1>Coupon List</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			{% if not cart_items %}
+
+			<h2 class ="text-center">You Don't Have Any Coupon</h2>
+			<br>
+			<div class ="text-center">
+				<a href ="{% url 'products'%}" class="btn btn-warning btn-lg " style="background-color: #F28123; color: white; border-radius: 35px;">Continue Shopping</a>
+			</div>
+			{% else %}
+			<section class="section-content padding-y">
+                <div class="container">
+                    <h6>Available Coupons</h6>
+                    {% include 'include/alerts.html' %}
+                    {% for unused_coupon in unused_coupons %}
+                    <div class="row py-2 ">
+                        <div class="card col-md-12 shadow-sm">
+                            
+                            
+                            <div class="card-body">
+                                <strong class="d-inline-block mr-3">{{unused_coupon.coupon_code}}</strong>
+                                <p>{{unused_coupon.description}} </p>
+                                <p>You should purchase for minimum of ₹{{unused_coupon.minimum_amount}}   </p>
+                                <p>Discount amount you would get ₹{{unused_coupon.discount}} </p>
+                                <p>Valid From:{{unused_coupon.valid_from}} </p>
+                                <p>Valid To:{{unused_coupon.valid_to}} </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="section-content padding-y">
+                <div class="container">
+                    <h6>Used Coupons</h6>
+                    {% include 'include/alerts.html' %}
+                    {% for user_coupon in user_coupons %}
+                    <div class="row py-2 ">
+                        <div class="card col-md-12 shadow-sm">
+                            
+                            
+                            <div class="card-body">
+                                <strong class="d-inline-block mr-3">{{user_coupon.coupon.coupon_code}}</strong>
+                                <p>{{user_coupon.coupon.description}} </p>
+                                <p>You should purchase for minimum of ₹{{user_coupon.coupon.minimum_amount}}   </p>
+                                <p>Discount amount you would get ₹{{user_coupon.coupon.discount}} </p>
+                                <p>Valid From:{{user_coupon.coupon.valid_from}} </p>
+                                <p>Valid To:{{user_coupon.coupon.valid_to}} </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            
+			{% endif %}
+		</div>
+	</div>
+	<!-- end cart -->
+
+
+
+{% endblock %}

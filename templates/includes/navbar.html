@@ -1,0 +1,97 @@
+{% load static %}
+
+<!--PreLoader-->
+<div class="loader">
+	<div class="loader-inner">
+		<div class="circle"></div>
+	</div>
+</div>
+<!--PreLoader Ends-->
+
+<!-- header -->
+	<div class="top-header-area" id="sticker">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+							<a href="">
+								<img src="{% static 'img/logo.png' %}" alt="">
+							</a>
+						</div>
+						<!-- logo -->
+
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+								<li><a href="/">Home</a></li>
+								<li><a href="/about">About</a></li>
+								<li><a href="/products">Products</a>
+									<ul class="sub-menu">
+										{% for category in links %}
+											<li><a href="{% url 'products' %}?category={{ category.id }}">{{ category.category_name}}</a></li>
+										{% endfor %}
+									</ul>
+								</li>
+								
+								<li><a href="/contact">Contact</a></li>
+	
+								<li>
+									<div class="header-icons">
+										{% if user.is_authenticated %}
+											<li>
+												<a class="user"><i class="fas fa-user"></i></a>
+												<ul class="sub-menu">
+													<li><a href="{% url 'user_profile' %}">Profile</a></li>
+													<li><a href="{% url 'userlogout' %}">Logout</a></li>
+												</ul>
+											</li>
+										{% else %}
+											<a class="user" href="{% url 'userlogin' %}"><i class="fas fa-user"></i></a>
+										{% endif %}
+																				
+										<li><a class="shopping-cart" href="{% url 'view_wishlist' %}"><i class="fas fa-heart"></i></a></li>
+										<li>
+											<a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
+												<div class="icon icon-sm "><i class="fa fa-shopping-cart"></i><span class="badge badge-pill badge-warning notify">{{cart_count}}</span></div>
+												
+											</a>
+										</li>
+										<li><a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a></li>
+									</div>
+									
+								</li>
+									
+							</ul>
+						</nav>
+						<a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+						<div class="mobile-menu"></div>
+						<!-- menu end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end header -->
+	
+	<!-- search area -->
+	<div class="search-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="close-btn"><i class="fas fa-window-close"></i></span>
+					<form action="{% url 'search'%}" class="search" method='GET'>
+					  <div class="search-bar">
+						<div class="search-bar-tablecell">
+							<h3>Search For:</h3>
+							<input type="text" placeholder="Keywords" name="keyword">
+							<button type="submit">Search <i class="fas fa-search"></i></button>
+						</div>
+					  </div>
+				    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end search area -->

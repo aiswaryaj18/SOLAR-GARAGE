@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<h1>Login</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- login form -->
+	<div class="contact-from-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2">
+					<div class="form-title">
+						<h2>Welcome!</h2>
+						<p>Log in to your account to access our services.</p>
+					</div>
+					<div class="contact-form">
+						{% if messages %}
+                        <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="messages">
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        {% endif %}
+						<form method="POST" id="login-form" action="{% url 'userlogin' %}">{% csrf_token %}
+							<p>
+								<input type="email" placeholder="Email" name="email" id="email" required>
+							</p>
+							<p>
+								<input type="password" placeholder="Password" name="password" id="password" required>
+							</p>
+							<p class="forgot-signup-links">
+								<a href="/forgot_password">Forgot Password?</a> | <a href="/usersignup">Sign Up</a> 
+							</p>
+							<p><input type="submit" value="Login"></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end login form -->
+
+{% endblock %}

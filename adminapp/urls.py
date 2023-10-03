@@ -1,0 +1,30 @@
+from django.urls import path
+from adminapp import views
+
+urlpatterns = [
+    path('', views.admin_index, name='admin_index'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('admin_logout/', views.admin_logout, name='admin_logout'),
+    path('admin_products/', views.admin_products, name='admin_products'),
+    path('add_product/', views.add_product, name='add_product'),
+    path('edit_product/<int:product_id>/', views.edit_product, name='edit_product'),
+    path('soft_delete_product/<int:product_id>/', views.soft_delete_product, name='soft_delete_product'),
+    path('undo_soft_delete_product/<int:product_id>/', views.undo_soft_delete_product, name='undo_soft_delete_product'),
+    path('admin_category/', views.admin_category, name='admin_category'),
+    path('add_category/', views.add_category, name='add_category'),
+    path('edit_category/<int:category_id>/', views.edit_category, name='edit_category'),
+    path('delete_category/<int:category_id>/', views.delete_category, name='delete_category'),
+    path('admin_users/', views.admin_users, name='admin_users'),
+    path('admin_orders/', views.admin_orders, name='admin_orders'),
+    path('update_order_status/<int:order_id>/<str:new_status>/', views.update_order_status, name='update_order_status'),
+    path('admin_order_details/<int:order_id>/', views.admin_order_details, name='admin_order_details'),
+    path('admin_coupons/', views.admin_coupons, name='admin_coupons'),
+    path('admin_add_coupons/',views.admin_add_coupons, name='admin_add_coupons'),
+    path('admin_edit_coupons/<int:coupon_id>/', views.admin_edit_coupons, name='admin_edit_coupons'),
+    path('admin_delete_coupons/<int:coupon_id>/', views.admin_delete_coupons, name='admin_delete_coupons'),
+    path('admin_banners/', views.admin_banners, name='admin_banners'),
+    path('user_block/<int:user_id>', views.user_block, name='user_block'),
+    path('user_unblock/<int:user_id>', views.user_unblock, name='user_unblock'),
+    path('sales_report/', views.sales_report, name='sales_report'),
+    path('admin_search/', views.admin_search, name='admin_search'),
+]

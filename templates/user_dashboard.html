@@ -1,0 +1,112 @@
+
+
+{% load static %}
+
+
+<style>
+  /* Remove bullets from list items */
+  .menu-inner {
+    list-style: none;
+    padding: 0; /* Optional: Remove default padding */
+    padding-left: 30px; 
+  }
+
+  /* Style the menu items */
+  .menu-item {
+    margin-bottom: 10px; /* Optional: Add spacing between menu items */
+    font-size: 18px; /* Adjust the font size to your desired value */
+  }
+
+  .menu-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Remove underlines from links */
+    color: #051922; /* Set the text color to blue (#051922) */
+    font-weight: bold; /* Make the text bold */
+  }
+
+  .menu-icon {
+    margin-right: 8px; /* Optional: Add spacing between icon and text */
+  }
+  .main-content {
+	padding-left: 30px;
+  font-size: 18px;
+	margin-top: 30px;
+  display: flex;
+  }
+</style>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="col-md-3 col-lg-3 d-md-block bg-light sidebar">
+      <div class="position-sticky">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+          <div class="menu-inner-shadow"></div>
+          <ul class="menu-inner py-5"> <!-- Adjust the padding for better spacing -->
+            <!-- Dashboard -->
+            <li class="menu-item">
+              <a href="{% url 'user_profile' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Analytics">Edit Profile</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'my_orders' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-package"></i>
+                <div data-i18n="Support">My Orders</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'view_wishlist' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category"></i>
+                <div data-i18n="Support">Wishlist</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'my_wallet' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div data-i18n="Support">Wallet</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'add_address' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Documentation">Add Address</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'manage_address' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-map"></i>
+                <div data-i18n="Documentation">Manage Address</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'coupons' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-discount"></i>
+                <div data-i18n="Documentation">Coupons</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'change_password' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxl-product-hunt"></i>
+                <div data-i18n="Support">Change Password</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'about' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-bell"></i>
+                <div data-i18n="Documentation">Notifications</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'contact' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-phone"></i>
+                <div data-i18n="Documentation">Help</div>
+              </a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </nav>
+
