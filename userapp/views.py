@@ -397,7 +397,7 @@ def return_order(request, order_id):
     return redirect('my_orders')
 
 
-@login_required
+
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     user = request.user
@@ -412,7 +412,7 @@ def add_to_wishlist(request, product_id):
 
 
 
-@login_required(login_url='userlogin')
+@login_required
 def view_wishlist(request):
     user = request.user
 
@@ -439,7 +439,7 @@ def remove_from_wishlist(request, product_id):
 
 
 
-@login_required(loginurl='login')
+# @login_required(login_url='login')
 def change_password(request):
     if request.method == 'POST':
         current_password = request.POST['current_password']
