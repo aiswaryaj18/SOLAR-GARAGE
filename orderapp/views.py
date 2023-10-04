@@ -111,7 +111,6 @@ def set_default_address(request, address_id):
 
 def checkout(request, total=0 , sub_total=0, quantity=0, cart_items=None):
     try:
-        tax = 0
         shipping = 0
         grand_total = 0
         coupon_discount = 0

@@ -23,6 +23,7 @@ def admin_index(request):
     
     return render(request,'admin_index.html')
 
+@login_required
 def dashboard(request):
     end_date = datetime.now()
     start_date = end_date - timedelta(days=7)  # Adjust the number of days as needed
