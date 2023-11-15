@@ -397,7 +397,7 @@ def return_order(request, order_id):
     return redirect('my_orders')
 
 
-
+@login_required(login_url='userlogin')
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     user = request.user
@@ -412,7 +412,7 @@ def add_to_wishlist(request, product_id):
 
 
 
-@login_required
+@login_required(login_url='userlogin')
 def view_wishlist(request):
     user = request.user
 

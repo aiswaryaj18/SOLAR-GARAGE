@@ -108,7 +108,7 @@ def set_default_address(request, address_id):
     address.save()
     return redirect('checkout')
 
-
+@login_required(login_url='userlogin')
 def checkout(request, total=0 , sub_total=0, quantity=0, cart_items=None):
     try:
         shipping = 0
